@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <style>
+        #interface {
+            background-color: rgb(43, 75, 180);
+            width: 550px;
+        }
+        div[class|=col] {
+            /* border: 1px solid black; */
+            height: 80px;
+            font-size: 30px;
+            text-align: center;
+            line-height: 80px;
+        }
+        #show {
+            width: 100%;
+            height: 50px;
+            border: 1px solid rgb(0, 81, 255);
+            font-size: 20px;
+        }
+        .function{
+            width: 100%;
+            height: 100%;
+        }
+        .data{
+            width: 100%;
+            height: 100%;
+        }
+        #result{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="calculator">
+        <div class="container" id="interface">
+            <div class="row">
+                <div class="col-lg-12"><input id="show" type="text" value=""></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3"><input  class="function" type="button"
+                        value="+"></div>
+                <div class="col-lg-3"><input  class="function" type="button"
+                        value="-"></div>
+                <div class="col-lg-3"><input  class="function" type="button"
+                        value="×"></div>
+                <div class="col-lg-3"><input  class="function" type="button"
+                        value="/"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3"><input  class="data" type="button" value="7">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value="8">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value="9">
+                </div>
+                <div class="col-lg-3"><input  class="function" type="button"
+                        value="C"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3"><input  class="data" type="button" value="4">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value="5">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value="6">
+                </div>
+                <!-- <div class="col-lg-3"><input style="width: 100%; height: 100%;" class="function" type="button" value="save"></div> -->
+            </div>
+            <div class="row">
+                <div class="col-lg-3"><input  class="data" type="button" value="1">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value="2">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value="3">
+                </div>
+                <div class="col-lg-3"><input  class="function" type="button"
+                        value="back"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3"><input  class="data" type="button" value="0">
+                </div>
+                <div class="col-lg-3"><input  class="data" type="button" value=".">
+                </div>
+                <div class="col-lg-3"><input  id="result" type="button" value="=">
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            var show = document.getElementById('show')
+            var datas = document.getElementsByClassName('data')
+            var operations = document.getElementsByClassName('function')
+            var result= document.getElementById('result')
+            var temp = ''
+            var num1 = 0
+            var num2 = 0
+            var type = ''
+            for (let i = 0; i < datas.length; i++) {
+                datas[i].onclick = function () {
+                    temp += this.value
+                    show.value = temp
+                }
+            }
+            
+            for (let i = 0; i < operations.length; i++) {
+                operations[i].onclick = function () {
+                    num1 = parseFloat(show.value)
+                    if (this.value == 'C') {
+                        show.value = ''
+                    }
+                    else if (this.value == 'back') {
+                        show.value = show.value.substring(0, show.value.length - 1)
+                    } else {
+                        type = this.value
+                        console.log(type);
+                        show.value=''
+                        for (let i = 0; i < datas.length; i++) {
+                            datas[i].onclick = function () {
+                                show.value += this.value
+                                num2 = parseFloat(show.value)
+                            }
+                        }
+                    }
+                }
+            }
+            
+            result.onclick=function(){
+                show.value= calculate(num1,num2,type)
+            }
+
+            function calculate(num1,num2,type) {
+                if(type=='+'){
+                    return num1+num2
+                }else if(type=='-'){
+                    return num1-num2
+                }else if(type=='×'){
+                    return num1*num2
+                }else if(type=='/'){
+                    return num1/num2
+                }
+            }
+
+        }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+</body>
+
+</html>
